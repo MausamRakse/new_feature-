@@ -94,7 +94,7 @@ app.post('/api/save-agent-config', async (req, res) => {
         // 3. Generate Prompt using Google Gemini
         let generatedPrompt = null;
         if (genAI) {
-            const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+            const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
             
             const prompt = `You are an expert AI calling agent designer.
 
