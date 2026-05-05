@@ -5,6 +5,11 @@ import { createClient } from '@supabase/supabase-js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
@@ -173,6 +178,13 @@ OUTPUT FORMAT (STRICT JSON):
         console.error("API Route Error:", error);
         res.status(500).json({ error: error.message });
     }
+});
+
+// Serve static frontend in production
+app.use(express.static(path.join(__dirname, '../frontend-next/out')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend-next/out', 'index.html'));
 });
 
 app.listen(port, () => {

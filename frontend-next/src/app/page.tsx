@@ -39,7 +39,11 @@ export default function Home() {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/save-agent-config', {
+      const apiUrl = process.env.NODE_ENV === 'production' 
+        ? '/api/save-agent-config' 
+        : 'http://localhost:8000/api/save-agent-config';
+        
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
