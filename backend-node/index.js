@@ -71,6 +71,7 @@ async function scrapeWebsite(url) {
 app.post('/api/save-agent-config', async (req, res) => {
     try {
         const payload = req.body;
+        console.log("Received payload for configuration generation:", JSON.stringify(payload, null, 2));
         
         // 1. Scrape Website for extra context
         let extractedWebsiteSummary = "N/A";
@@ -166,6 +167,12 @@ OUTPUT FORMAT (STRICT JSON):
                 generatedPrompt = { error: "Gemini API failed: " + geminiError.message };
             }
         }
+
+        console.log("Returning result to frontend:", JSON.stringify({
+            status: "success",
+            has_generated_prompt: !!generatedPrompt,
+            prompt_error: generatedPrompt?.error || null
+        }, null, 2));
 
         res.json({
             status: "success",
